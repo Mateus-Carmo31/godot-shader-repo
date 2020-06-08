@@ -6,6 +6,7 @@
 
 [sub_resource type="ShaderMaterial" id=1]
 shader = ExtResource( 3 )
+shader_param/uv_mode = false
 shader_param/x_factor = 2.0
 shader_param/bulge = 0.0
 

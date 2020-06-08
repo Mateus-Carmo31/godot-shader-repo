@@ -8,7 +8,6 @@
 shader = ExtResource( 3 )
 shader_param/rotation = Basis( 1, 0, 0, 0, 1, 0, 0, 0, 1 )
 shader_param/fov = 90.0
-shader_param/cylinder_height = 1.0
 
 [node name="Control" type="Control"]
 anchor_right = 1.0
@@ -23,6 +22,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 texture = ExtResource( 2 )
 expand = true
+flip_h = true
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false

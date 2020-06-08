@@ -5,6 +5,7 @@ Documented by TheWandererBR
 
 shader_type canvas_item;
 
+uniform bool uv_mode = false;
 uniform float x_factor = 2.0;
 uniform float bulge : hint_range(-1,1);
 
@@ -57,9 +58,14 @@ void fragment()
 	// Undoes the remapping we did at the beginning
 	uv = (uv + 1.0) / 2.0;
 	
+	// Draws the uv instead of the texture (for debugging)
+	if(uv_mode)
+	{
+		COLOR = vec4(uv, 0.0, 1.0);
+	}
 	// Checks for uv values outside the texture, and draws them as transparent,
 	// allowing the "indentation" effect when bulge < 0
-	if(uv.x >= 0.0 && uv.x <= 1.0)
+	else if(uv.x >= 0.0 && uv.x <= 1.0)
 	{
 		COLOR = texture(TEXTURE, uv);
 	}
