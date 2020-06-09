@@ -1,0 +1,83 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://CamScript.gd" type="Script" id=1]
+[ext_resource path="res://SimpleMove.gd" type="Script" id=2]
+[ext_resource path="res://mask_cutout.shader" type="Shader" id=3]
+
+[sub_resource type="CapsuleMesh" id=2]
+radius = 0.5
+mid_height = 0.5
+
+[sub_resource type="SpatialMaterial" id=3]
+albedo_color = Color( 1, 0, 0, 1 )
+
+[sub_resource type="PlaneMesh" id=4]
+
+[sub_resource type="Environment" id=5]
+
+[sub_resource type="World" id=6]
+environment = SubResource( 5 )
+
+[sub_resource type="ShaderMaterial" id=7]
+shader = ExtResource( 3 )
+shader_param/intensity = 0.1
+shader_param/position = Vector2( 0.5, 0.5 )
+
+[sub_resource type="ViewportTexture" id=1]
+viewport_path = NodePath("World/MasksViewport")
+
+[node name="Main" type="Node"]
+
+[node name="World" type="Spatial" parent="."]
+
+[node name="Player" type="MeshInstance" parent="World"]
+transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 0.768259, 0 )
+mesh = SubResource( 2 )
+material/0 = SubResource( 3 )
+script = ExtResource( 2 )
+mask_texture = NodePath("../MasksViewport/MaskTexture")
+
+[node name="Ground" type="MeshInstance" parent="World"]
+transform = Transform( 10, 0, 0, 0, 1, 0, 0, 0, 10, 0, 0, 0 )
+mesh = SubResource( 4 )
+material/0 = null
+
+[node name="CamPivot" type="Spatial" parent="World"]
+script = ExtResource( 1 )
+
+[node name="Camera" type="Camera" parent="World/CamPivot"]
+transform = Transform( 1, 0, 0, 0, 0.914268, 0.40511, 0, -0.40511, 0.914268, 0, 8.69923, 10.2597 )
+current = true
+
+[node name="MasksViewport" type="Viewport" parent="World"]
+size = Vector2( 1024, 600 )
+own_world = true
+world = SubResource( 6 )
+handle_input_locally = false
+keep_3d_linear = true
+usage = 3
+
+[node name="MaskTexture" type="ColorRect" parent="World/MasksViewport"]
+material = SubResource( 7 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="UI" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="UI"]
+margin_right = 148.0
+margin_bottom = 87.0
+texture = SubResource( 1 )
+expand = true
+stretch_mode = 5
+__meta__ = {
+"_edit_use_anchors_": false
+}

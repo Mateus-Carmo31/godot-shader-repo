@@ -8,12 +8,24 @@
 shader = ExtResource( 3 )
 shader_param/uv_mode = false
 shader_param/x_factor = 2.0
-shader_param/bulge = 0.0
+shader_param/bulge = -0.108355
 
 [node name="Node2D" type="Node2D"]
 
 [node name="icon" type="Sprite" parent="."]
 material = SubResource( 1 )
-position = Vector2( 64.1889, 52.0093 )
+position = Vector2( 78.8905, 75.7261 )
+scale = Vector2( 1, 1.10836 )
 texture = ExtResource( 1 )
 script = ExtResource( 2 )
+
+[node name="Label" type="Label" parent="."]
+margin_left = 4.16084
+margin_top = 17.7529
+margin_right = 288.161
+margin_bottom = 31.7529
+rect_scale = Vector2( 0.5, 0.5 )
+text = "Try messing around with the sprite's y scale!"
+__meta__ = {
+"_edit_use_anchors_": false
+}
