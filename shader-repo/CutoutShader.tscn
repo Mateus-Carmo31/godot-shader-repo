@@ -1,18 +1,21 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://CamScript.gd" type="Script" id=1]
 [ext_resource path="res://SimpleMove.gd" type="Script" id=2]
+[ext_resource path="res://cutout_mesh.shader" type="Shader" id=3]
 
 [sub_resource type="Environment" id=1]
 
 [sub_resource type="World" id=2]
 environment = SubResource( 1 )
 
-[sub_resource type="CapsuleMesh" id=3]
+[sub_resource type="CapsuleShape" id=17]
 radius = 0.5
-mid_height = 0.5
+height = 0.5
 
-[sub_resource type="SpatialMaterial" id=4]
+[sub_resource type="CapsuleMesh" id=15]
+
+[sub_resource type="SpatialMaterial" id=16]
 albedo_color = Color( 1, 0, 0, 1 )
 
 [sub_resource type="SphereMesh" id=5]
@@ -21,42 +24,28 @@ albedo_color = Color( 1, 0, 0, 1 )
 flags_unshaded = true
 params_cull_mode = 1
 
-[sub_resource type="CubeMesh" id=13]
+[sub_resource type="CubeMesh" id=7]
 size = Vector3( 2, 21.191, 2 )
 
-[sub_resource type="SpatialMaterial" id=14]
+[sub_resource type="SpatialMaterial" id=8]
 albedo_color = Color( 0, 0, 0, 1 )
 
-[sub_resource type="CubeMesh" id=8]
+[sub_resource type="CubeMesh" id=9]
 
-[sub_resource type="Shader" id=9]
-code = "shader_type spatial;
-
-uniform vec4 albedo : hint_color;
-uniform bool interact_with_mask = false;
-uniform sampler2D mask;
-
-void fragment()
-{
-	vec4 mask_check = texture(mask, vec2(SCREEN_UV.x, 1f - SCREEN_UV.y));
-	
-	bool is_in_mask = mask_check == vec4(1.0);
-	
-	ALBEDO = albedo.rgb;
-	ALPHA = (is_in_mask && interact_with_mask ? 0.0 : 1.0);
-}"
-
-[sub_resource type="ViewportTexture" id=10]
+[sub_resource type="ViewportTexture" id=11]
 viewport_path = NodePath("World/StencilViewport")
 
-[sub_resource type="ShaderMaterial" id=11]
+[sub_resource type="ShaderMaterial" id=12]
 resource_local_to_scene = true
-shader = SubResource( 9 )
+shader = ExtResource( 3 )
 shader_param/albedo = Color( 0.32549, 0.462745, 1, 1 )
 shader_param/interact_with_mask = true
-shader_param/mask = SubResource( 10 )
+shader_param/mask = SubResource( 11 )
 
-[sub_resource type="ViewportTexture" id=12]
+[sub_resource type="BoxShape" id=14]
+extents = Vector3( 6, 6, 1 )
+
+[sub_resource type="ViewportTexture" id=13]
 viewport_path = NodePath("World/StencilViewport")
 
 [node name="Main" type="Node"]
@@ -76,19 +65,25 @@ __meta__ = {
 }
 
 [node name="Camera" type="Camera" parent="World/StencilViewport"]
-transform = Transform( 0.753081, 0.202109, -0.626115, 0, 0.951648, 0.307191, 0.657928, -0.231339, 0.716668, -11.0792, 6.883, 12.3396 )
+transform = Transform( 0.753081, 0.20211, -0.626116, 0, 0.951648, 0.307191, 0.657928, -0.23134, 0.716668, -11.0792, 6.883, 12.3396 )
 projection = 1
 size = 20.0
 
-[node name="Player" type="MeshInstance" parent="World"]
-transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 0.768259, 4.64891 )
-mesh = SubResource( 3 )
-material/0 = SubResource( 4 )
+[node name="Player" type="KinematicBody" parent="World"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.768259, 4.64891 )
 script = ExtResource( 2 )
 mask_viewport = NodePath("../StencilViewport")
 
+[node name="CollisionShape" type="CollisionShape" parent="World/Player"]
+transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, -0.075, 0 )
+shape = SubResource( 17 )
+
+[node name="PlayerMesh" type="MeshInstance" parent="World/Player"]
+transform = Transform( 0.5, 0, 0, 0, -8.14603e-08, -0.5, 0, 0.5, -8.14603e-08, 0, -0.0752412, 0 )
+mesh = SubResource( 15 )
+material/0 = SubResource( 16 )
+
 [node name="CullMesh" type="MeshInstance" parent="World/Player"]
-transform = Transform( 1.3, 0, 0, 0, 1.3, 0, 0, 0, 1.3, 0, 0, 0 )
 mesh = SubResource( 5 )
 material/0 = SubResource( 6 )
 
@@ -96,8 +91,8 @@ material/0 = SubResource( 6 )
 
 [node name="Ground" type="MeshInstance" parent="World"]
 transform = Transform( 10, 0, 0, 0, 1, 0, 0, 0, 10, 0, -10.6982, 0 )
-mesh = SubResource( 13 )
-material/0 = SubResource( 14 )
+mesh = SubResource( 7 )
+material/0 = SubResource( 8 )
 
 [node name="CamPivot" type="Spatial" parent="World"]
 transform = Transform( 0.753081, 0, -0.657928, 0, 1, 0, 0.657928, 0, 0.753081, 0, 0, 0 )
@@ -112,10 +107,15 @@ size = 20.0
 [node name="MaskCameraRemote" type="RemoteTransform" parent="World/CamPivot/Camera"]
 remote_path = NodePath("../../../StencilViewport/Camera")
 
-[node name="Wall" type="MeshInstance" parent="."]
-transform = Transform( 6, 0, 0, 0, 6, 0, 0, 0, 1, 0, 0, 0.0699911 )
-mesh = SubResource( 8 )
-material/0 = SubResource( 11 )
+[node name="StaticBody" type="StaticBody" parent="World"]
+
+[node name="Wall" type="MeshInstance" parent="World/StaticBody"]
+transform = Transform( 6, 0, 0, 0, 6, 0, 0, 0, 1, 0, 0, 0 )
+mesh = SubResource( 9 )
+material/0 = SubResource( 12 )
+
+[node name="CollisionShape" type="CollisionShape" parent="World/StaticBody"]
+shape = SubResource( 14 )
 
 [node name="UI" type="Control" parent="."]
 anchor_right = 1.0
@@ -127,7 +127,7 @@ __meta__ = {
 [node name="TextureRect" type="TextureRect" parent="UI"]
 margin_right = 148.0
 margin_bottom = 87.0
-texture = SubResource( 12 )
+texture = SubResource( 13 )
 expand = true
 stretch_mode = 5
 __meta__ = {
