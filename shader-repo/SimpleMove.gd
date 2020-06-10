@@ -11,10 +11,10 @@ func _ready():
 
 func _process(delta):
 	
-	var forward = - get_viewport().get_camera().transform.basis.z
+	var forward = - get_viewport().get_camera().global_transform.basis.z
 	forward.y = 0
 	
-	var right = get_viewport().get_camera().transform.basis.x
+	var right = get_viewport().get_camera().global_transform.basis.x
 	right.y = 0
 	
 	var movement_dir : Vector3
