@@ -1,10 +1,13 @@
 extends MeshInstance
 
-export(NodePath) var mask_texture
+export(NodePath) var mask_viewport
 export(float) var speed = 4.0
 
 func _ready():
-	pass # Replace with function body.
+	var cull_mesh = $CullMesh
+	remove_child(cull_mesh)
+	get_node(mask_viewport).add_child(cull_mesh)
+	$RemoteTransform.remote_path = cull_mesh.get_path()
 
 func _process(delta):
 	
@@ -24,13 +27,13 @@ func _process(delta):
 	
 	translation += movement_dir * delta * speed
 	
-	update_mask_position()
-
-func update_mask_position():
-	
-	var screen_pos = get_viewport().get_camera().unproject_position(translation)
-	screen_pos = Vector2(screen_pos.x, screen_pos.y) / get_viewport().size
-	
-	if mask_texture:
-		var node = get_node(mask_texture)
-		node.material.set("shader_param/position", screen_pos)
+#	update_mask_position()
+#
+#func update_mask_position():
+#
+#	var screen_pos = get_viewport().get_camera().unproject_position(translation)
+#	screen_pos = Vector2(screen_pos.x, screen_pos.y) / get_viewport().size
+#
+#	if mask_texture:
+#		var node = get_node(mask_texture)
+#		node.material.set("shader_param/position", screen_pos)
