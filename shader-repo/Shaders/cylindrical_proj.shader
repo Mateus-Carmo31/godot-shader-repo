@@ -12,7 +12,7 @@ const float PI = 3.14159;
 const float TAU = 6.28318;
 const float HALF_PI = 1.570795;
 
-// This matrix represents the camera's rotation
+// This matrix represents the camera's rotation/orientation/scale
 uniform mat3 rotation;
 // Field of View
 uniform float fov: hint_range(10, 90) = 90;
@@ -20,7 +20,7 @@ uniform float fov: hint_range(10, 90) = 90;
 //uniform float cylinder_height = 1;
 
 void fragment() {
-	// Calculates the screen resolution
+	// Calculates the screen resolution (eg. vec2(1980, 1080))
 	vec2 resolution = 1.0 / SCREEN_PIXEL_SIZE;
 	
 	// Obtains the camera's FoV angle (halved) in radians

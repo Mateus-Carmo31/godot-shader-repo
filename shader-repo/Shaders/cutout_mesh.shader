@@ -2,7 +2,7 @@
 Cutout Mesh shader by TheWandererBR
 
 Simple shader for making objects display behind others with an effect.
-Requires a slightly complicated setup, so check out associated scene.
+Requires a slightly complicated setup, so check out the associated scene.
 */
 
 shader_type spatial;
