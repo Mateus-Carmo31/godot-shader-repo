@@ -14,10 +14,10 @@ func _ready():
 var velocity := Vector3.ZERO
 func _process(delta):
 	
-	var forward = - get_viewport().get_camera().global_transform.basis.z
+	var forward = - get_viewport().get_camera().global_transform.basis.z.normalized()
 	forward.y = 0
 	
-	var right = get_viewport().get_camera().global_transform.basis.x
+	var right = get_viewport().get_camera().global_transform.basis.x.normalized()
 	right.y = 0
 	
 	var movement_dir : Vector3
@@ -38,4 +38,8 @@ func _physics_process(delta):
 		get_viewport().get_camera().global_transform.origin, 
 		[self])
 	
-	$RemoteTransform.scale = Vector3.ONE if result else Vector3.ZERO
+	if result:
+		$RemoteTransform.scale = lerp($RemoteTransform.scale, Vector3.ONE, 5.0 * delta)
+	else:
+		$RemoteTransform.scale = lerp($RemoteTransform.scale, Vector3.ZERO, 5.0 * delta)
+		
