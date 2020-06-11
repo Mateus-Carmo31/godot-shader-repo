@@ -1,3 +1,10 @@
+/*
+Cutout Mesh shader by TheWandererBR
+
+Simple shader for making objects display behind others with an effect.
+Requires a slightly complicated setup, so check out associated scene.
+*/
+
 shader_type spatial;
 
 // Color of the object.
