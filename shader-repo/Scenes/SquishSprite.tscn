@@ -8,14 +8,13 @@
 shader = ExtResource( 3 )
 shader_param/uv_mode = false
 shader_param/x_factor = 2.0
-shader_param/bulge = -0.108355
+shader_param/bulge = 0.0
 
 [node name="Node2D" type="Node2D"]
 
 [node name="icon" type="Sprite" parent="."]
 material = SubResource( 1 )
-position = Vector2( 78.8905, 75.7261 )
-scale = Vector2( 1, 1.10836 )
+position = Vector2( 78.8905, 78.2434 )
 texture = ExtResource( 1 )
 script = ExtResource( 2 )
 

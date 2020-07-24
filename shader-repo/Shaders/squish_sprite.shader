@@ -22,7 +22,7 @@ void vertex()
 // Must be a function in which the x will be between 0 and 1 for y between -1 and 1.
 float bulge_function(float y)
 {
-	return sqrt(1.0 - y * y);
+	return sqrt(1.0 - y*y);
 }
 
 void fragment()
@@ -40,11 +40,15 @@ void fragment()
 	Calculates a displacement using the bulge factor and the function,
 	then divides the x by it. 
 	
-	If the displacement is positive, the UV values will be brought back 
-	towards 0, and the texture will be sampled at inner values (essentially 
-	stretching the texture outwards). The opposite will happen if the 
-	displacement is negative, with the UV values being pushed outwards, and the 
-	texture being sampled at outer values.
+	If the displacement is larger than 1, the uv.x will become smaller, and, in
+	the process, when the uv is used for sampling, a pixel more towards the
+	middle of the texture will be sampled instead. This causes far UV values to
+	now be able to have a correspondent pixel in the [-1, 1] range (that will
+	be unmapped back to [0,1] later), "pulling out" the OG texture.
+	 
+	An inverted process occurs with displacement smaller than 1:
+	uv.x becomes larger -> pixels move away from middle -> 
+	inner values sample from farther away -> texture gets "pulled in"
 	
 	This also has the bonus of causing certain pixels to sample values < 0 or > 1,
 	which will be caught by the if statement below and be rendered transparent.
@@ -61,7 +65,7 @@ void fragment()
 	// Draws the uv instead of the texture (for debugging)
 	if(uv_mode)
 	{
-		COLOR = vec4(uv, 0.0, 1.0);
+		COLOR = uv.x >= 0.0 && uv.x <= 1.0 ? vec4(uv, 0.0, 1.0) : vec4(vec3(0.0), 1.0);
 	}
 	// Checks for uv values outside the texture, and draws them as transparent,
 	// allowing the "indentation" effect when bulge < 0

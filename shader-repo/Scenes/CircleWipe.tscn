@@ -1,0 +1,56 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://icon.png" type="Texture" id=1]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+
+uniform vec2 target = vec2(.5, .5);
+uniform float size;
+uniform vec4 color : hint_color;
+
+void fragment()
+{
+	vec2 res = 1f / SCREEN_PIXEL_SIZE;
+	
+	vec2 current_pixel = SCREEN_UV * res;
+	vec2 target_pixel = vec2(target.x, 1f-target.y) * res;
+	
+	float dist = distance(current_pixel, target_pixel);
+	
+	float scaled_size = size * length(res);
+	
+	COLOR = color;
+	COLOR.a = clamp(1f + dist - scaled_size, 0f, 1f);
+}"
+
+[sub_resource type="ShaderMaterial" id=2]
+shader = SubResource( 1 )
+shader_param/target = Vector2( 0.5, 0.5 )
+shader_param/size = 0.22
+shader_param/color = null
+
+[node name="Control" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="."]
+margin_left = 480.363
+margin_top = 266.785
+margin_right = 544.363
+margin_bottom = 330.785
+texture = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="."]
+material = SubResource( 2 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
