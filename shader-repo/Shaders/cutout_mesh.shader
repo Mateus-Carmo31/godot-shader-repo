@@ -1,5 +1,5 @@
 /*
-Cutout Mesh shader by TheWandererBR
+Cutout Mesh shader by Mateus-Carmo31
 
 Simple shader for making objects display behind others with an effect.
 Requires a slightly complicated setup, so check out the associated scene.
