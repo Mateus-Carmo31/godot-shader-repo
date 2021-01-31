@@ -1,6 +1,6 @@
 /*
 Cylindrical Projection Shader by Garmelon (https://github.com/Garmelon)
-Documented by TheWandererBR
+Documented by Mateus-Carmo31
 
 https://en.wikipedia.org/wiki/Central_cylindrical_projection
 */
