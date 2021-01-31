@@ -1,6 +1,6 @@
 /*
 Equirectangular Projection Shader by Garmelon (https://github.com/Garmelon)
-Documented by TheWandererBR
+Documented by Mateus-Carmo31
 
 https://wiki.panotools.org/Equirectangular_Projection
 https://en.wikipedia.org/wiki/Equirectangular_projection
