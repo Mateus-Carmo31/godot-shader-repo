@@ -1,5 +1,5 @@
 /*
-PSX Fadeout Shader by TheWandererBR
+PSX Fadeout Shader by Mateus-Carmo31
 
 A simple fade-to-black inspired by original PSX games
 */
