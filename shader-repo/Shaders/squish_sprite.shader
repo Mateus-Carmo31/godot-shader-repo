@@ -1,6 +1,6 @@
 /*
 Squish Sprite Shader by Garmelon (https://github.com/Garmelon)
-Documented by TheWandererBR
+Documented by Mateus-Carmo31
 */
 
 shader_type canvas_item;
